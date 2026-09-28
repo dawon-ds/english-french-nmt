@@ -47,3 +47,4 @@ def text_to_indices(texts, word_to_id, use_unk=True):
         ids.append(word_to_id["</s>"])
         sequences.append(ids)
     return sequences
+
