@@ -48,3 +48,4 @@ def text_to_indices(texts, word_to_id, use_unk=True):
         sequences.append(ids)
     return sequences
 
+
