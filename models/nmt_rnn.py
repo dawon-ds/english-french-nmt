@@ -54,3 +54,4 @@ class DecoderLSTMWithAttention(nn.Module):
 
 EncoderLSTM_Att = EncoderLSTMWithAttention
 DecoderLSTM_Att = DecoderLSTMWithAttention
+
