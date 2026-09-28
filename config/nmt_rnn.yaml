@@ -19,3 +19,4 @@ training:
 
 # Download GoogleNews-vectors-negative300.bin separately and set its path here.
 embedding_file: GoogleNews-vectors-negative300.bin
+
