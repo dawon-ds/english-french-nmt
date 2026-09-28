@@ -59,3 +59,4 @@ python -m scripts.evaluate --config config/nmt_rnn.yaml --run-dir runs/nmt_atten
 - Added a reproducible repository structure, dependency file, and Git ignore rules.
 - Kept the original LSTM + dot-product attention logic and assignment hyperparameters.
 
+
