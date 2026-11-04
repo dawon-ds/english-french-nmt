@@ -18,7 +18,10 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--config", default="config/nmt_rnn.yaml")
     p.add_argument("--run-dir", default="runs/nmt_attention")
+    p.add_argument("--max-decode-length", type=int, default=100, help="Maximum generated tokens per sentence")
     args = p.parse_args()
+    if args.max_decode_length < 1:
+        p.error("--max-decode-length must be positive")
 
     with open(args.config, encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
@@ -34,7 +37,7 @@ def main():
 
     src_text, tgt_text = load_nmt_pair_data(cfg["data"]["test_file"], clean=True)
     dataset = TranslationDataset(text_to_indices(src_text, src_vocab), text_to_indices(tgt_text, tgt_vocab))
-    loader = DataLoader(dataset, batch_size=cfg["training"]["batch_size"], collate_fn=collate_translation_batch, drop_last=True)
+    loader = DataLoader(dataset, batch_size=cfg["training"]["batch_size"], collate_fn=collate_translation_batch, drop_last=False)
 
     encoder = EncoderLSTM_Att(len(src_vocab), cfg["model"]["embedding_dim"], cfg["model"]["hidden_size"], embedding).to(device)
     decoder = DecoderLSTM_Att(cfg["model"]["embedding_dim"], cfg["model"]["hidden_size"], len(tgt_vocab)).to(device)
@@ -52,13 +55,21 @@ def main():
             token = torch.full((source.size(0),), 2, dtype=torch.long, device=device)
             hidden, cell = enc_hidden.unsqueeze(0), enc_cell
             words = [[] for _ in range(source.size(0))]
-            for _ in range(int(target_lengths.max())):
+            finished = torch.zeros(source.size(0), dtype=torch.bool, device=device)
+            eos_id = tgt_vocab["</s>"]
+            for _ in range(args.max_decode_length):
                 out, hidden, cell = decoder(enc_out, token, hidden, cell)
-                token = out.argmax(1)
-                for i, idx in enumerate(token.tolist()):
-                    word = id2word.get(idx, "<unk>")
-                    if word not in {"<pad>", "<s>", "</s>"}:
-                        words[i].append(word)
+                predicted = out.argmax(1)
+                for i, idx in enumerate(predicted.tolist()):
+                    if finished[i]:
+                        continue
+                    if idx == eos_id:
+                        finished[i] = True
+                    elif idx not in {tgt_vocab["<pad>"], tgt_vocab["<s>"]}:
+                        words[i].append(id2word.get(idx, "<unk>"))
+                if finished.all():
+                    break
+                token = torch.where(finished, torch.full_like(predicted, eos_id), predicted)
             hypotheses.extend(words)
 
     references = [[sentence.split()] for sentence in tgt_text[:len(hypotheses)]]
