@@ -2,7 +2,6 @@
 
 LSTM Encoder–Decoder with dot-product attention for English → French neural machine translation. The project implements attention directly and compares generated translations with reference sentences using BLEU-4.
 
-[Portfolio](https://incredible-march-0ef.notion.site/English-French-Neural-Machine-Translation-3e968564df5a817f92a4f275a892ee8e)
 
 ## Project Overview
 
