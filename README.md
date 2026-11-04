@@ -39,7 +39,9 @@ Artifacts are written under `runs/nmt_attention/`: `best.pth`, `source_vocab.pkl
 
 ## Results
 
-BLEU-4: **0.416** · Training time: **642.13 minutes**
+**Reported BLEU-4: 0.416** · **Training time: 642.13 minutes**
+
+This is the submitted experiment result under the evaluation conditions described in Limitations, not a newly reproduced score.
 
 ## Repository Structure
 
