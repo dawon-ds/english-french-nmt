@@ -39,7 +39,7 @@ Artifacts are written under `runs/nmt_attention/`: `best.pth`, `source_vocab.pkl
 
 ## Results
 
-**Reported BLEU-4: 0.416** · **Training time: 642.13 minutes**
+**Historically reported BLEU-4: 0.416** · **Training time: 642.13 minutes**
 
 This is the submitted experiment result under the evaluation conditions described in Limitations, not a newly reproduced score.
 
@@ -85,9 +85,7 @@ python -m scripts.evaluate --config config/nmt_rnn.yaml --run-dir runs/nmt_atten
 
 ## Limitations
 
-The current evaluator drops the final incomplete test batch, uses reference lengths to determine the decoding budget, and does not stop each sentence at its first EOS token. BLEU therefore needs to be interpreted with those evaluation choices in mind. Vocabularies are also constructed before the validation split.
-
-A stronger evaluation would retain all test examples, stop decoding at EOS with a reference-independent maximum length, and report the precise tokenization and scoring setup.
+The updated evaluator includes the final incomplete test batch and uses autoregressive decoding with EOS stopping and a configurable, reference-independent maximum length (`--max-decode-length`, default 100). **The historical BLEU-4 result was reported with the earlier evaluation procedure and has not been recalculated under this corrected protocol.** Vocabularies are still constructed before the validation split. A stronger comparison would also report the exact tokenization and scoring setup.
 
 ## Review
 
