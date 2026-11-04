@@ -90,3 +90,10 @@ The updated evaluator includes the final incomplete test batch and uses autoregr
 ## Review
 
 Implementing attention directly provided practice with encoder/decoder states, context-vector construction, teacher forcing, and sequence-level evaluation.
+
+## Data and Third-party Resources
+
+- **Data / embeddings:** the English–French sentence pairs and pretrained Word2Vec files are external inputs, not included in the repository. Their original distribution and usage conditions must be checked before redistribution.
+- **Evaluation:** the README's historical BLEU value should not be interpreted as newly reproduced using the updated evaluator.
+
+Dependency lists are in `requirements.txt`; unless versions are explicitly pinned there, they do not reproduce an exact historical software environment. No redistribution permission for third-party inputs is implied by this repository.
