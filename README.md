@@ -2,22 +2,15 @@
 
 [Portfolio Page](https://app.notion.com/p/3e968564df5a817f92a4f275a892ee8e)
 
-An LSTM Encoder–Decoder for English → French translation, using pre-trained Word2Vec embeddings and dot-product attention to address the limitations of a fixed-length sentence representation.
-
-## Project Overview
-
-- **Task:** English–French neural machine translation
-- **Model:** LSTM encoder–decoder with dot-product attention
-- **Framework:** PyTorch
-- **Evaluation:** BLEU-4
+A PyTorch LSTM Encoder–Decoder for English → French translation, using pre-trained Word2Vec embeddings and dot-product attention to address the limitations of a fixed-length sentence representation.
 
 ## Data & Implementation
 
 The assignment reports **108,674 training sentence pairs** and **27,168 test pairs**. The training script reserves 10% of the supplied training pairs for validation after shuffling.
 
-Source and target vocabularies are built from the supplied training file. The encoder uses pretrained source Word2Vec embeddings; the decoder computes dot-product attention over encoder outputs to build a context vector at each step.
+Source and target vocabularies are built from the supplied training file.
 
-Training uses teacher forcing with ratio 0.5, ignores padding labels in NLL loss, and saves the checkpoint with lowest validation loss. Evaluation uses greedy decoding and NLTK corpus BLEU-4.
+Training ignores padding labels in NLL loss and saves the checkpoint with lowest validation loss. Evaluation uses greedy decoding and NLTK corpus BLEU-4.
 
 Artifacts are written under `runs/nmt_attention/`: `best.pth`, `source_vocab.pkl`, `target_vocab.pkl`, and `source_embedding.npy`.
 
@@ -36,8 +29,6 @@ Artifacts are written under `runs/nmt_attention/`: `best.pth`, `source_vocab.pkl
 
 - **Reported BLEU-4:** 0.416
 - **Training time:** approximately 642.13 minutes
-
-The BLEU-4 score is from the original assignment and was not recalculated using the updated evaluator (see Limitations).
 
 ## Repository Structure
 
@@ -65,7 +56,7 @@ py -m venv .venv
 pip install -r requirements.txt
 ```
 
-Place the English–French train/test TSV files at `data/eng-fra_train.txt` and `data/eng-fra_test.txt`. Download `GoogleNews-vectors-negative300.bin` separately and either place it in the repository root or update `embedding_file` in `config/nmt_rnn.yaml`. Dataset files, the binary embedding file, and trained checkpoints are intentionally excluded from Git.
+Place the English–French train/test TSV files at `data/eng-fra_train.txt` and `data/eng-fra_test.txt`. Download `GoogleNews-vectors-negative300.bin` separately and either place it in the repository root or update `embedding_file` in `config/nmt_rnn.yaml`. Trained checkpoints are not included in the repository.
 
 ### Training
 
